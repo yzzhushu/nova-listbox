@@ -20,12 +20,6 @@
                         emptyFilterMessage="暂无匹配数据"
                         listStyle="height:260px"
                         @change="delColumn"
-                        :pt="{
-                            item: {
-                                class: 'cursor-pointer list-box-item',
-                                style: 'line-height: 40px'
-                            }
-                        }"
                     />
                 </SplitterPanel>
                 <SplitterPanel>
@@ -41,12 +35,6 @@
                         emptyFilterMessage="暂无匹配数据"
                         listStyle="height:260px"
                         @change="addColumn"
-                        :pt="{
-                            item: {
-                                class: 'cursor-pointer list-box-item',
-                                style: 'line-height: 40px'
-                            }
-                        }"
                     />
                 </SplitterPanel>
             </Splitter>
@@ -97,33 +85,36 @@ export default {
             this.drawLists();
         },
 
-        // 查询所有列表数据
+        // 查询全部列表数据
         loadLists() {
             Nova
                 .request()
                 .get(this.field.options)
                 .then(response => {
-                    const data = response.data;
-                    let lists = [];
-                    for (let i = 0; i < data.resources.length; i++) {
-                        lists.push({
-                            code: data.resources[i].value,
-                            name: data.resources[i].display,
-                        });
-                    }
-                    this.lists = this.handleData(lists);
-                    this.drawLists();
+                    this.handleData(response.data.resources);
                 });
+        },
+
+        // 处理选择清单
+        handleData(lists) {
+            const mix = this.field.nameWithCode;
+            this.lists = lists.map(function (item) {
+                return {
+                    code: item.value,
+                    name: (mix ? (item.value + ' - ') : '') + item.display,
+                };
+            });
+            this.drawLists();
         },
 
         // 绘制lists
         drawLists() {
             let list1 = [];
             let list2 = [];
-            let code_;
+            let code;
             for (let i = 0; i < this.lists.length; i++) {
-                code_ = this.lists[i].code;
-                if (this.check[code_] === undefined) {
+                code = this.lists[i].code;
+                if (this.check[code] === undefined) {
                     list2.push(this.lists[i]);
                 } else {
                     list1.push(this.lists[i]);
@@ -131,25 +122,6 @@ export default {
             }
             this.list1 = list1;
             this.list2 = list2;
-        },
-
-        // 处理选择清单
-        handleData(lists) {
-            let data = [];
-            let name;
-            for (let i = 0; i < lists.length; i++) {
-                if (typeof lists[i] !== 'object') continue;
-                if (lists[i].code === undefined ||
-                    lists[i].name === undefined) continue;
-                name = this.field.nameWithCode === true ?
-                    lists[i].code + ' - ' + lists[i].name :
-                    lists[i].name;
-                data.push({
-                    code: lists[i].code,
-                    name: name,
-                });
-            }
-            return data;
         },
 
         // 设置初始值
@@ -165,8 +137,7 @@ export default {
             if (typeof options === 'string') {
                 this.loadLists();
             } else {
-                this.lists = this.handleData(options);
-                this.drawLists();
+                this.handleData(options);
             }
         },
 
