@@ -2,10 +2,15 @@
 
 This package provides a ListBox field for Laravel Nova.
 
-## Screenshots
+### Screenshots
 
+#### 列表页面
 ![Index View](docs/index.png)
+
+#### 表单页面
 ![Form View](docs/form.png)
+
+#### 详情页面
 ![Detail View](docs/detail.png)
 
 ### Installation
