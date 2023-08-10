@@ -127,11 +127,13 @@ export default {
         // 设置初始值
         setInitialValue() {
             const value = this.field.value;
-            let initCheck = {};
-            value.map(function (item) {
-                initCheck[item.id] = true;
-            });
-            this.check = initCheck;
+            if (value !== null) {
+                let initCheck = {};
+                value.map(function (item) {
+                    initCheck[item.id] = true;
+                });
+                this.check = initCheck;
+            }
 
             const options = this.field.options;
             if (typeof options === 'string') {
