@@ -4,6 +4,7 @@
             <DropdownTrigger
                 class="text-gray-500 inline-flex items-center cursor-pointer"
                 :showArrow="false"
+                @click="loadLists"
             >
                 <span class="link-default font-bold">{{ display }}</span>
             </DropdownTrigger>
@@ -14,10 +15,10 @@
                         style="width: auto;max-width: 320px;max-height: 232px;overflow: scroll;"
                         class="py-3"
                     >
-                        <li v-for="tag in tags"
+                        <li v-for="item in lists"
                             style="height: 40px;line-height: 40px;"
                             class="cursor-pointer list-box-item text-center px-6">
-                            {{ tag.name }}
+                            {{ item.name }}
                         </li>
                     </ul>
                 </DropdownMenu>
@@ -33,23 +34,59 @@ export default {
 
     data() {
         return {
-            tags: [],
+            lists: [{code: 0, name: '加载中...'}],
+            loading: false,
             display: ''
         }
+    },
+
+    methods: {
+        loadLists() {
+            if (this.loading) return;
+            let lists = this.field.value;
+            if (lists === null || lists.length === 0) return;
+            this.loading = true;
+
+            Nova
+                .request()
+                .get(this.field.options)
+                .then(response => {
+                    let list = [];
+                    for (let i = 0; i < response.data.resources.length; i++) {
+                        let item = response.data.resources[i];
+                        if (item.value === undefined && item.id === undefined) continue;
+                        let code = item.value || item.id;
+                        if (!lists.includes(code)) continue;
+                        list.push(item);
+                    }
+                    this.formatLists(list);
+                });
+        },
+
+        // 格式化数据
+        formatLists(lists) {
+            let list = [];
+            let code;
+            let name;
+            for (let i = 0; i < lists.length; i++) {
+                code = lists[i].value || lists[i].id
+                name = lists[i].display || lists[i].name;
+                list.push({
+                    code: code,
+                    name: (this.field.nameWithCode ? (code + ' - ') : '') + name
+                });
+            }
+            this.lists = list.length > 0 ? list : [{code: 0, name: '暂无数据'}];
+        },
     },
 
     mounted() {
         this.display = this.field.displayedAs || this.field.value.length;
 
-        let tags = this.field.value;
-        let list = [];
-        for (let i = 0; i < tags.length; i++) {
-            list.push({
-                code: tags[i].id,
-                name: (this.field.nameWithCode ? (tags[i].id + ' - ') : '') + tags[i].name
-            })
+        if (this.field.belongsToMany) {         // BelongsToMany情况下，直接渲染列表
+            this.loaded = true;
+            this.formatLists(this.field.value);
         }
-        this.tags = list;
     },
 }
 </script>
