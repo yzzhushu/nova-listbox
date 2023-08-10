@@ -127,7 +127,7 @@ export default {
         // 设置初始值
         setInitialValue() {
             const value = this.field.value;
-            if (typeof value === 'object') {
+            if (value !== null && typeof value === 'object') {
                 let initCheck = {};
                 let relation = this.field.belongsToMany;
                 value.map(function (item) {

@@ -84,7 +84,7 @@ export default {
         this.display = this.field.displayedAs || this.field.value.length;
 
         if (this.field.belongsToMany) {         // BelongsToMany情况下，直接渲染列表
-            this.loaded = true;
+            this.loading = true;
             this.formatLists(this.field.value);
         }
     },
