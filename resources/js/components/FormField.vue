@@ -127,6 +127,7 @@ export default {
         // 设置初始值
         setInitialValue() {
             const value = this.field.value;
+            console.log(value);
             if (value !== null) {
                 let initCheck = {};
                 value.map(function (item) {
