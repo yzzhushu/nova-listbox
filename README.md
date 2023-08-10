@@ -23,10 +23,10 @@ composer require jshxl/list-box
 
 ### Requirements
 
-- `php: ^7.3|^8.0`
+- `php: ^8.1`
 - `laravel/framework: ^10.10`
-- `laravel/nova: ^4.0`
-- `jshxl/primevue: ^1.0.0`
+- `laravel/nova: ~4.0`
+- `jshxl/primevue: @dev`
 
 ### More
 
