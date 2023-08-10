@@ -55,6 +55,17 @@ class ListBox extends Field
     public bool $formatInt = false;
 
     /**
+     * listbox提示文字
+     *
+     * @var array
+     * */
+    public array $messages = [
+        'emptyMessage'       => '暂无可选数据',
+        'filterPlaceholder'  => '输入关键词搜索',
+        'emptyFilterMessage' => '暂无匹配数据',
+    ];
+
+    /**
      * Determine if the field should be displayed for the given request.
      *
      * @param  Request  $request
@@ -134,6 +145,23 @@ class ListBox extends Field
     }
 
     /**
+     * 设置提示文字
+     * @param string|array $key
+     * @param string $value
+     *
+     * @return self
+     * */
+    public function setMessage(string|array $key, string $value = ''): self
+    {
+        if (is_array($key)) {
+            $this->messages = array_merge($this->messages, $key);
+        } else {
+            $this->messages[$key] = $value;
+        }
+        return $this;
+    }
+
+    /**
      * Hydrate the given attribute on the model based on the incoming request.
      * @param NovaRequest $request
      * @param string $requestAttribute
@@ -174,6 +202,7 @@ class ListBox extends Field
                 'belongsToMany' => $this->belongsToMany,
                 'resourceClass' => $this->resourceClass ?? '',
                 'nameWithCode'  => $this->nameWithCode,
+                'messages'      => $this->messages,
             ], parent::jsonSerialize());
         });
     }

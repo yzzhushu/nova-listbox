@@ -15,9 +15,9 @@
                         optionValue="code"
                         filter
                         :virtualScrollerOptions="{ itemSize: 40 }"
-                        emptyMessage="暂无可选数据"
-                        filterPlaceholder="输入关键词搜索"
-                        emptyFilterMessage="暂无匹配数据"
+                        :emptyMessage="field.messages.emptyMessage"
+                        :filterPlaceholder="field.messages.filterPlaceholder"
+                        :emptyFilterMessage="field.messages.emptyFilterMessage"
                         listStyle="height:260px"
                         @change="delColumn"
                     />
@@ -30,9 +30,9 @@
                         optionValue="code"
                         filter
                         :virtualScrollerOptions="{ itemSize: 40 }"
-                        emptyMessage="暂无可选数据"
-                        filterPlaceholder="输入关键词搜索"
-                        emptyFilterMessage="暂无匹配数据"
+                        :emptyMessage="field.messages.emptyMessage"
+                        :filterPlaceholder="field.messages.filterPlaceholder"
+                        :emptyFilterMessage="field.messages.emptyFilterMessage"
                         listStyle="height:260px"
                         @change="addColumn"
                     />
@@ -127,7 +127,6 @@ export default {
         // 设置初始值
         setInitialValue() {
             const value = this.field.value;
-            console.log(value);
             if (value !== null) {
                 let initCheck = {};
                 value.map(function (item) {
