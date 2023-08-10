@@ -86,10 +86,10 @@ export default {
         },
 
         // 查询全部列表数据
-        loadLists() {
+	    _loadLists(request_url) {
             Nova
                 .request()
-                .get(this.field.options)
+                .get(request_url)
                 .then(response => {
                     this.handleData(response.data.resources);
                 });
@@ -97,11 +97,13 @@ export default {
 
         // 处理选择清单
         handleData(lists) {
-            const mix = this.field.nameWithCode;
+            const _mix = this.field.nameWithCode;
             this.lists = lists.map(function (item) {
+				let code = item.value || item.id;
+				let name = item.display || item.name;
                 return {
-                    code: item.value,
-                    name: (mix ? (item.value + ' - ') : '') + item.display,
+                    code: code,
+                    name: (_mix ? (code + ' - ') : '') + name,
                 };
             });
             this.drawLists();
@@ -111,15 +113,10 @@ export default {
         drawLists() {
             let list1 = [];
             let list2 = [];
-            let code;
-            for (let i = 0; i < this.lists.length; i++) {
-                code = this.lists[i].code;
-                if (this.check[code] === undefined) {
-                    list2.push(this.lists[i]);
-                } else {
-                    list1.push(this.lists[i]);
-                }
-            }
+			this.lists.map((item) => {
+				if (this.check[item.code] === undefined) list2.push(item);
+				else list1.push(item);
+			});
             this.list1 = list1;
             this.list2 = list2;
         },
@@ -127,18 +124,17 @@ export default {
         // 设置初始值
         setInitialValue() {
             const value = this.field.value;
-            if (value !== null && typeof value === 'object') {
-                let initCheck = {};
-                let relation = this.field.belongsToMany;
+            if (value !== null) {
+				let init = {};
                 value.map(function (item) {
-                    initCheck[relation === true ? item.id : item] = true;
+	                init[item.id || item] = true;
                 });
-                this.check = initCheck;
+				this.check = init;
             }
 
             const options = this.field.options;
             if (typeof options === 'string') {
-                this.loadLists();
+                this._loadLists(options);
             } else {
                 this.handleData(options);
             }

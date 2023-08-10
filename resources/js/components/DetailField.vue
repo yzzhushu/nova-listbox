@@ -18,51 +18,62 @@ export default {
 
     data() {
         return {
-            lists: [],
+            lists: [{code: 0, name: '加载中...'}],
         }
     },
 
     methods: {
         loadLists() {
-            let lists = this.field.value;
+            if (this.field.value.length === 0) {
+                this.lists = [];
+                return;
+            }
+
             Nova
                 .request()
                 .get(this.field.options)
                 .then(response => {
-                    let list = [];
-                    for (let i = 0; i < response.data.resources.length; i++) {
-                        let item = response.data.resources[i];
-                        if (item.value === undefined && item.id === undefined) continue;
-                        let code = item.value || item.id;
-                        if (!lists.includes(code)) continue;
-                        list.push(item);
-                    }
-                    this.formatLists(list);
+                    this.handleLists(response.data.resources);
                 });
+        },
+
+        // 筛选有效数据
+        handleLists(lists) {
+            let list = [];
+            let pick = this.field.value;
+            lists.map(item => {
+                let code = item.value || item.id;
+                if (pick.includes(code)) list.push(item);
+            });
+            this.formatLists(list);
         },
 
         // 格式化数据
         formatLists(lists) {
+            if (lists.length === 0) {
+                this.lists = [];
+                return;
+            }
+
+            const _mix = this.field.nameWithCode || false;
             let list = [];
-            let code;
-            let name;
-            for (let i = 0; i < lists.length; i++) {
-                code = lists[i].value || lists[i].id
-                name = lists[i].display || lists[i].name;
+            lists.map(item => {
+                let code = item.value || item.id
+                let name = item.display || item.name;
                 list.push({
                     code: code,
-                    name: (this.field.nameWithCode ? (code + ' - ') : '') + name
+                    name: (_mix ? (code + ' - ') : '') + name
                 });
-            }
+            });
             this.lists = list;
-        },
+        }
     },
 
     mounted() {
-        let lists = this.field.value;
-        if (typeof lists !== 'object' || lists.length === 0) return;
-        if (this.field.belongsToMany) {         // BelongsToMany情况下，直接渲染列表
-            this.formatLists(lists);
+        if (typeof this.field.options !== 'string') {
+            this.handleLists(this.field.options);
+        } else if (this.field.belongsToMany) {
+            this.formatLists(this.field.value);
         } else {
             this.loadLists()
         }

@@ -1,21 +1,19 @@
-## nova-field-listbox
+### Features
 
-This package provides a ListBox field for Laravel Nova.
+- A list-box field for Laravel Nova.
+- Also supports dark mode.
+- Data source supports array, nova resource or custom http(s) request.
+- BelongsToMany relationship is supported.
 
 ### Screenshots
 
-#### 列表页面
 ![Index View](docs/index.png)
-
-#### 表单页面
 ![Form View](docs/form.png)
-
-#### 详情页面
 ![Detail View](docs/detail.png)
 
 ### Installation
 
-Install the package in a Laravel Nova project via Composer:
+Install this package in a Laravel Nova project via Composer:
 
 ```bash
 composer require jshxl/list-box
@@ -28,10 +26,10 @@ composer require jshxl/list-box
 - `laravel/nova: ~4.0`
 - `jshxl/primevue: @dev`
 
-### More
+### Documents
 
-手册目前懒得写，具体看代码叭
+I'm lazy, so I don't want to write documents. You can read the source code to understand how to use it.
 
 ### License
 
-This project is open-sourced software licensed under the [MIT license](LICENSE.md).
+This project is open-sourced software licensed under the MIT license.
