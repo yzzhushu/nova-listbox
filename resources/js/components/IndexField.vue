@@ -1,19 +1,22 @@
 <template>
     <div :class="`text-${field.textAlign}`">
-        <Dropdown v-if="field.value.length > 0">
-            <DropdownTrigger
-                class="text-gray-500 inline-flex items-center cursor-pointer"
-                :showArrow="false"
-                @mouseover="loadLists"
+        <div v-if="field.value.length > 0">
+            <Tooltip
+                :triggers="['hover']"
+                :popperTriggers="['hover']"
+                placement="top"
+                theme="plain"
+                @show="loadLists"
+                :auto-hide="true"
+                distance="12"
             >
-                <span class="link-default font-bold">{{display}}</span>
-            </DropdownTrigger>
-
-            <template #menu>
-                <DropdownMenu width="auto">
+                <template #default>
+                    <span class="link-default">{{ display }}</span>
+                </template>
+                <template #content>
                     <ul
-                        style="width: auto;max-width: 320px;max-height: 232px;overflow: scroll;"
-                        class="py-3"
+                        style="max-height: 232px;overflow: scroll;"
+                        class="py-3 min-w-[20rem] max-w-2xl"
                     >
                         <li v-for="item in lists"
                             style="height: 40px;line-height: 40px;"
@@ -21,9 +24,9 @@
                             {{ item.name }}
                         </li>
                     </ul>
-                </DropdownMenu>
-            </template>
-        </Dropdown>
+                </template>
+            </Tooltip>
+        </div>
         <p v-else>&mdash;</p>
     </div>
 </template>
