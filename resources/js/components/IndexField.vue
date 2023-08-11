@@ -4,7 +4,7 @@
             <DropdownTrigger
                 class="text-gray-500 inline-flex items-center cursor-pointer"
                 :showArrow="false"
-                @click="loadLists"
+                v-on:hover="loadLists"
             >
                 <span class="link-default font-bold">{{display}}</span>
             </DropdownTrigger>
