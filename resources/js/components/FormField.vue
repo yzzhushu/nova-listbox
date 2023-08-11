@@ -6,7 +6,10 @@
         :full-width-content="fullWidthContent"
     >
         <template #field>
-            <Splitter style="height:calc(260px + 40px + 1.25rem)">
+            <Splitter
+	            style="height:calc(260px + 40px + 1.25rem)"
+	            :class="errorClasses"
+            >
                 <SplitterPanel>
                     <Listbox
                         v-model="selected1"
