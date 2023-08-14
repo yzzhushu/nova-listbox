@@ -23,6 +23,11 @@
                         :emptyFilterMessage="field.messages.emptyFilterMessage"
                         listStyle="height:260px"
                         @change="delColumn"
+                        :pt="{
+                            item: {
+                                style: 'line-height: 40px'
+                            }
+                        }"
                     />
                 </SplitterPanel>
                 <SplitterPanel>
@@ -38,19 +43,17 @@
                         :emptyFilterMessage="field.messages.emptyFilterMessage"
                         listStyle="height:260px"
                         @change="addColumn"
+                        :pt="{
+                            item: {
+                                style: 'line-height: 40px'
+                            }
+                        }"
                     />
                 </SplitterPanel>
             </Splitter>
         </template>
     </DefaultField>
 </template>
-
-<style>
-.list-box-item:hover {
-    color: #495057;
-    background: #e9ecef;
-}
-</style>
 
 <script>
 import {FormField, HandlesValidationErrors} from 'laravel-nova';
