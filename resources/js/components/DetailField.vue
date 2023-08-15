@@ -13,59 +13,20 @@
 </template>
 
 <script>
+import request from "../request";
 export default {
-    props: ['index', 'resource', 'resourceName', 'resourceId', 'field'],
-
-    data() {
-        return {
-            lists: [{code: 0, name: '加载中...'}],
-        }
-    },
+    mixins: [request],
 
     methods: {
         loadLists() {
-            if (this.field.value.length === 0) {
-                this.lists = [];
-                return;
-            }
-
+            if (this.field.value.length === 0)
+                return this.lists = [];
             Nova
                 .request()
                 .get(this.field.options)
                 .then(response => {
                     this.handleLists(response.data.resources);
                 });
-        },
-
-        // 筛选有效数据
-        handleLists(lists) {
-            let list = [];
-            let pick = this.field.value;
-            lists.map(item => {
-                let code = item.value || item.id;
-                if (pick.includes(code)) list.push(item);
-            });
-            this.formatLists(list);
-        },
-
-        // 格式化数据
-        formatLists(lists) {
-            if (lists.length === 0) {
-                this.lists = [];
-                return;
-            }
-
-            const _mix = this.field.nameWithCode || false;
-            let list = [];
-            lists.map(item => {
-                let code = item.value || item.id
-                let name = item.display || item.name;
-                list.push({
-                    code: code,
-                    name: (_mix ? (code + ' - ') : '') + name
-                });
-            });
-            this.lists = list;
         }
     },
 

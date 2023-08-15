@@ -203,6 +203,7 @@ class ListBox extends Field
                 'resourceClass' => $this->resourceClass ?? '',
                 'nameWithCode'  => $this->nameWithCode,
                 'messages'      => $this->messages,
+                'formatInt'     => $this->formatInt,
             ], parent::jsonSerialize());
         });
     }

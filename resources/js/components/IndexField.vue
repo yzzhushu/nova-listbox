@@ -11,7 +11,7 @@
                 distance="12"
             >
                 <template #default>
-                    <span class="link-default">{{ display }}</span>
+                    <span class="link-default">{{ field.displayedAs || field.value.length }}</span>
                 </template>
                 <template #content>
                     <ul
@@ -32,26 +32,13 @@
 </template>
 
 <script>
+import request from "../request";
 export default {
-    props: ['index', 'resource', 'resourceName', 'resourceId', 'field'],
-
-    data() {
-        return {
-            lists: [{code: 0, name: '加载中...'}],
-            loading: false
-        }
-    },
-
-    computed: {
-        display() {
-            return this.field.displayedAs || this.field.value.length;
-        }
-    },
+    mixins: [request],
 
     methods: {
         loadLists() {
             if (this.loading) return;
-            if (this.field.value.length === 0) return;
             this.loading = true;
 
             Nova
@@ -61,37 +48,6 @@ export default {
                     this.handleLists(response.data.resources);
                 });
         },
-
-        // 筛选有效数据
-        handleLists(lists) {
-            let list = [];
-            let pick = this.field.value;
-            lists.map(item => {
-                let code = item.value || item.id;
-                if (pick.includes(code)) list.push(item);
-            });
-            this.formatLists(list);
-        },
-
-        // 格式化数据
-        formatLists(lists) {
-            if (lists.length === 0) {
-                this.lists = [{code: 0, name: '暂无数据'}];
-                return;
-            }
-
-            const _mix = this.field.nameWithCode || false;
-            let list = [];
-            lists.map(item => {
-                let code = item.value || item.id
-                let name = item.display || item.name;
-                list.push({
-                    code: code,
-                    name: (_mix ? (code + ' - ') : '') + name
-                });
-            });
-            this.lists = list;
-        }
     },
 
     mounted() {
