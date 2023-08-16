@@ -17,27 +17,16 @@ import request from "../request";
 export default {
     mixins: [request],
 
-    methods: {
-        loadLists() {
-            if (this.field.value.length === 0)
-                return this.lists = [];
-            Nova
-                .request()
-                .get(this.field.options)
-                .then(response => {
-                    this.handleLists(response.data.resources);
-                });
-        }
-    },
-
     mounted() {
         if (typeof this.field.options !== 'string') {
             this.handleLists(this.field.options);
         } else if (this.field.belongsToMany) {
             this.formatLists(this.field.value);
         } else {
-            this.loadLists()
+            if (this.field.value.length === 0)
+                return this.lists = [];
+            this.loadLists();
         }
-    },
+    }
 }
 </script>

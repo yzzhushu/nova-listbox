@@ -9,11 +9,24 @@ export default {
     },
 
     methods: {
+        // 加载数据列表
+        loadLists() {
+            if (this.loading) return;
+            this.loading = true;
+
+            Nova
+                .request()
+                .get(this.field.options)
+                .then(response => {
+                    this.handleLists(response.data.resources);
+                });
+        },
+
         // 筛选有效数据
         handleLists(lists) {
             let list = [];
             let pick = this.field.value;
-            let _int = this.field.formatInt;
+            let _int = this.field.formatInt || false;
             lists.map(item => {
                 let code = item.value || item.id;
                 code = _int ? parseInt(code) : code.toString();
@@ -30,16 +43,16 @@ export default {
             }
 
             const _mix = this.field.nameWithCode || false;
-            let list = [];
+            let array = [];
             lists.map(item => {
                 let code = item.value || item.id
                 let name = item.display || item.name;
-                list.push({
+                array.push({
                     code: code,
                     name: (_mix ? (code + ' - ') : '') + name
                 });
             });
-            this.lists = list;
+            this.lists = array;
         }
     }
 }

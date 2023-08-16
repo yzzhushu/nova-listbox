@@ -61,7 +61,7 @@ import {FormField, HandlesValidationErrors} from 'laravel-nova';
 export default {
     mixins: [FormField, HandlesValidationErrors],
 
-    props: ['resourceName', 'resourceId', 'field'],
+    props: ['field'],
 
     data() {
         return {
@@ -103,7 +103,7 @@ export default {
 
         // 处理选择清单
         handleData(lists) {
-            const _mix = this.field.nameWithCode;
+            const _mix = this.field.nameWithCode || false;
             this.lists = lists.map(function (item) {
 				let code = item.value || item.id;
 				let name = item.display || item.name;
