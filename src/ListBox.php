@@ -55,6 +55,13 @@ class ListBox extends Field
     public bool $formatInt = false;
 
     /**
+     * 是否以table形式展示数据
+     *
+     * @var array
+     * */
+    public array $columns;
+
+    /**
      * listbox提示文字
      *
      * @var array
@@ -162,6 +169,30 @@ class ListBox extends Field
     }
 
     /**
+     * 是否以table形式展示数据
+     * @param string $code
+     * @param string $name
+     *
+     * @return self
+     * */
+    public function displayTable(string $code = '编码', string $name = '名称'): self
+    {
+        $this->columns = [
+            [
+                'field'  => 'code',
+                'header' => $code,
+                'width'  => 35,
+            ],
+            [
+                'field'  => 'name',
+                'header' => $name,
+                'width'  => 65,
+            ],
+        ];
+        return $this;
+    }
+
+    /**
      * Hydrate the given attribute on the model based on the incoming request.
      * @param NovaRequest $request
      * @param string $requestAttribute
@@ -204,6 +235,7 @@ class ListBox extends Field
                 'nameWithCode'  => $this->nameWithCode,
                 'messages'      => $this->messages,
                 'formatInt'     => $this->formatInt,
+                'columns'       => $this->columns ?? [],
             ], parent::jsonSerialize());
         });
     }

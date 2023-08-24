@@ -14,9 +14,17 @@
                     <span class="link-default">{{ field.displayedAs || field.value.length }}</span>
                 </template>
                 <template #content>
+                    <HxTable
+                        v-if="columns.length > 0"
+                        :columns="columns"
+                        :lists="lists"
+                        class="min-w-[24rem] max-w-2xl"
+                        style="max-height: calc(360px + .5rem)"
+                    />
                     <ul
-                        style="max-height: 232px;overflow: scroll;"
-                        class="py-3 min-w-[20rem] max-w-2xl"
+                        v-else
+                        style="max-height: calc(360px + .5rem);overflow: scroll;"
+                        class="py-3 min-w-[24rem] max-w-2xl"
                     >
                         <li v-for="item in lists"
                             style="line-height: 40px;"
@@ -43,6 +51,12 @@ export default {
         } else if (this.field.belongsToMany) {
             this.loading = true;
             this.formatLists(this.field.value);
+        }
+    },
+
+    computed: {
+        columns() {
+            return this.field.columns ?? [];
         }
     }
 }
