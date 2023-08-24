@@ -19,7 +19,7 @@
                         :columns="columns"
                         :lists="lists"
                         class="min-w-[24rem] max-w-2xl"
-                        style="max-height: calc(360px + .5rem)"
+                        style="height: auto;max-height: calc(360px + .5rem)"
                     />
                     <ul
                         v-else
@@ -28,7 +28,7 @@
                     >
                         <li v-for="item in lists"
                             style="line-height: 40px;"
-                            class="cursor-pointer list-box-item text-center h-10 px-6">
+                            class="cursor-pointer hx-list-column text-center h-10 px-6">
                             {{ item.name }}
                         </li>
                     </ul>
