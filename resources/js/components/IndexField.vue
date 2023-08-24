@@ -18,6 +18,7 @@
                         v-if="columns.length > 0"
                         :columns="columns"
                         :lists="lists"
+                        :scrollHeight="initScrollHeight"
                         class="min-w-[24rem] max-w-2xl"
                         style="max-height: calc(360px + .5rem)"
                     />
@@ -51,17 +52,17 @@ export default {
         } else if (this.field.belongsToMany) {
             this.loading = true;
             this.formatLists(this.field.value);
-        } else {
-            if (this.field.value.length === 0) return;
-            this.lists = this.field.value.map(item => {
-                return {code: item, name: ''}
-            });
         }
     },
 
     computed: {
         columns() {
             return this.field.columns ?? [];
+        },
+
+        initScrollHeight() {
+            const value = this.field.value || [];
+            return Math.min((value.length + 1) * 40, 360) + 'px';
         }
     }
 }
