@@ -14,12 +14,22 @@ export default {
             if (this.loading) return;
             this.loading = true;
 
-            Nova
-                .request()
-                .get(this.field.options)
-                .then(response => {
-                    this.handleLists(response.data.resources);
-                });
+            const method = this.field.method || 'get';
+            if (method === 'post') {
+                Nova
+                    .request()
+                    .post(this.field.options)
+                    .then(response => {
+                        this.handleLists(response.data.resources);
+                    });
+            } else {
+                Nova
+                    .request()
+                    .get(this.field.options)
+                    .then(response => {
+                        this.handleLists(response.data.resources);
+                    });
+            }
         },
 
         // 筛选有效数据

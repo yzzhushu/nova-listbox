@@ -93,12 +93,22 @@ export default {
 
         // 查询全部列表数据
 	    _loadLists(request_url) {
-            Nova
-                .request()
-                .get(request_url)
-                .then(response => {
-                    this.handleData(response.data.resources);
-                });
+            const method = this.field.method || 'get';
+            if (method === 'post') {
+                Nova
+                    .request()
+                    .post(request_url)
+                    .then(response => {
+                        this.handleData(response.data.resources);
+                    });
+            } else {
+                Nova
+                    .request()
+                    .get(request_url)
+                    .then(response => {
+                        this.handleData(response.data.resources);
+                    });
+            }
         },
 
         // 处理选择清单

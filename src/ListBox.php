@@ -62,6 +62,13 @@ class ListBox extends Field
     public array $columns;
 
     /**
+     * option默认请求方式
+     *
+     * @var string
+     * */
+    public string $method = 'get';
+
+    /**
      * listbox提示文字
      *
      * @var array
@@ -193,6 +200,19 @@ class ListBox extends Field
     }
 
     /**
+     * 默认请求方式
+     * @param string $method
+     *
+     * @return self
+     * */
+    public function method(string $method = 'post'): self
+    {
+        $method = strtolower($method);
+        $this->method = in_array($method, ['get', 'post']) ? $method : 'get';
+        return $this;
+    }
+
+    /**
      * Hydrate the given attribute on the model based on the incoming request.
      * @param NovaRequest $request
      * @param string $requestAttribute
@@ -236,6 +256,7 @@ class ListBox extends Field
                 'messages'      => $this->messages,
                 'formatInt'     => $this->formatInt,
                 'columns'       => $this->columns ?? [],
+                'method'        => $this->method,
             ], parent::jsonSerialize());
         });
     }
