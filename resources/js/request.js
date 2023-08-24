@@ -37,10 +37,8 @@ export default {
 
         // 格式化数据
         formatLists(lists) {
-            if (lists.length === 0) {
-                this.lists = [];
-                return;
-            }
+            this.lists = [];
+            if (lists.length === 0) return;
 
             const _mix = this.field.nameWithCode || false;
             let array = [];
