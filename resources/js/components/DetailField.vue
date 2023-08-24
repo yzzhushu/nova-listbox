@@ -23,8 +23,7 @@ export default {
         } else if (this.field.belongsToMany) {
             this.formatLists(this.field.value);
         } else {
-            if (this.field.value.length === 0)
-                return this.lists = [];
+            if (this.field.value.length === 0) return;
             this.loadLists();
         }
     }
