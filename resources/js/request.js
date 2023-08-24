@@ -38,7 +38,7 @@ export default {
         // 格式化数据
         formatLists(lists) {
             if (lists.length === 0) {
-                this.lists = [{code: 0, name: '暂无数据'}];
+                this.lists = [];
                 return;
             }
 
