@@ -18,9 +18,8 @@
                         v-if="columns.length > 0"
                         :columns="columns"
                         :lists="lists"
-                        :scrollHeight="Math.min(lists.length * 40 + 40, 360) + 'px'"
                         class="min-w-[24rem] max-w-2xl"
-                        style="height: auto;max-height: calc(360px + .5rem)"
+                        style="max-height: calc(360px + .5rem)"
                     />
                     <ul
                         v-else

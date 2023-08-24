@@ -3,7 +3,7 @@ export default {
 
     data() {
         return {
-            lists: [{code: 0, name: '加载中...'}],
+            lists: [],
             loading: false
         }
     },
