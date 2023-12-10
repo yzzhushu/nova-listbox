@@ -61,7 +61,7 @@ import {DependentFormField, HandlesValidationErrors} from 'laravel-nova';
 export default {
     mixins: [DependentFormField, HandlesValidationErrors],
 
-    props: ['field', 'currentField'],
+    props: ['field'],
 
     data() {
         return {
