@@ -61,7 +61,7 @@ import {DependentFormField, HandlesValidationErrors} from 'laravel-nova';
 export default {
     mixins: [DependentFormField, HandlesValidationErrors],
 
-    props: ['field'],
+    props: ['field', 'currentField'],
 
     data() {
         return {
@@ -139,6 +139,8 @@ export default {
 
         // 设置初始值
         setInitialValue() {
+            console.log(this.field);
+            console.log(this.currentField);
             const value = this.currentField.value;
             if (value !== null) {
 				let init = {};
