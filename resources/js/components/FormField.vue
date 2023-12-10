@@ -1,6 +1,6 @@
 <template>
     <DefaultField
-        :field="field"
+        :field="currentField"
         :errors="errors"
         :show-help-text="showHelpText"
         :full-width-content="fullWidthContent"
@@ -56,10 +56,10 @@
 </template>
 
 <script>
-import {FormField, HandlesValidationErrors} from 'laravel-nova';
+import {DependentFormField, HandlesValidationErrors} from 'laravel-nova';
 
 export default {
-    mixins: [FormField, HandlesValidationErrors],
+    mixins: [DependentFormField, HandlesValidationErrors],
 
     props: ['field'],
 
@@ -93,7 +93,7 @@ export default {
 
         // 查询全部列表数据
 	    _loadLists(request_url) {
-            const method = this.field.method || 'get';
+            const method = this.currentField.method || 'get';
             if (method === 'post') {
                 Nova
                     .request()
@@ -113,7 +113,7 @@ export default {
 
         // 处理选择清单
         handleData(lists) {
-            const _mix = this.field.nameWithCode || false;
+            const _mix = this.currentField.nameWithCode || false;
             this.lists = lists.map(function (item) {
 				let code = item.value || item.id;
 				let name = item.display || item.name;
@@ -139,7 +139,7 @@ export default {
 
         // 设置初始值
         setInitialValue() {
-            const value = this.field.value;
+            const value = this.currentField.value;
             if (value !== null) {
 				let init = {};
                 value.map(function (item) {
@@ -148,7 +148,7 @@ export default {
 				this.check = init;
             }
 
-            const options = this.field.options;
+            const options = this.currentField.options;
             if (typeof options === 'string') {
                 this._loadLists(options);
             } else {
