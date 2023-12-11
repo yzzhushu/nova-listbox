@@ -139,8 +139,6 @@ export default {
 
         // 设置初始值
         setInitialValue() {
-            console.log(this.field);
-            console.log(this.currentField);
             const value = this.currentField.value;
             if (value !== null) {
 				let init = {};
