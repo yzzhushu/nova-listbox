@@ -158,7 +158,11 @@ export default {
 
         // 填充表单数据
         fill(formData) {
-            formData.append(this.fieldAttribute, JSON.stringify(Object.keys(this.check)));
+            let codes = [];
+            this.list1.map((item) => {
+                codes.push(item.code);
+            });
+            formData.append(this.fieldAttribute, JSON.stringify(codes));
         },
     },
 }
