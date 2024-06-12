@@ -36,7 +36,7 @@
                 </template>
             </Tooltip>
         </div>
-        <p v-else>&mdash;</p>
+        <p v-else>{{ field.displayedAs || '—' }}</p>
     </div>
 </template>
 
