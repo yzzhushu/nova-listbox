@@ -25,7 +25,7 @@
                         @change="delColumn"
                         :pt="{
                             item: {
-                                style: 'line-height: 40px'
+                                style: 'line-height: 40px;overflow-x: hidden;'
                             }
                         }"
                     />
@@ -45,7 +45,7 @@
                         @change="addColumn"
                         :pt="{
                             item: {
-                                style: 'line-height: 40px'
+                                style: 'line-height: 40px;overflow-x: hidden;'
                             }
                         }"
                     />
